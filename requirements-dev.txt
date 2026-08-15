@@ -1,1 +1,2 @@
 # No third-party test dependency is required; tests use Python unittest.
+cryptography>=42,<47

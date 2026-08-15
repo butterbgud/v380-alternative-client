@@ -24,6 +24,7 @@ are understood and tested against an authorized camera.
 - [x] (2026-08-15 21:43 Europe/Tallinn) Confirmed and encoded the relay handshake sequence 1167 -> 1168, 301 -> 401, 303 -> framed media.
 - [x] (2026-08-15 21:43 Europe/Tallinn) Added command-ID constants and tests without embedding credentials or payloads.
 - [ ] Build a read-only handshake probe that uses caller-supplied credentials and never logs secrets.
+- [x] (2026-08-15 21:44 Europe/Tallinn) Added credential-safe handshake packet builders and response parsers; socket probing remains separate and opt-in.
 - [ ] Add tests for broader pcapng packet parsing and capture-derived edge cases.
 - [ ] Document the relay handshake using redacted packet excerpts.
 - [ ] Implement a read-only handshake probe against an explicitly supplied camera endpoint.
