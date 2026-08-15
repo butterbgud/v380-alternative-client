@@ -19,7 +19,9 @@ class HandshakeTests(unittest.TestCase):
 
     def test_builders_have_expected_commands_and_sizes(self):
         auth = build_auth_request(89799160, "user", "password", "device.example")
-        self.assertEqual(len(auth), 256)
+        self.assertEqual(len(auth), 520)
+        self.assertEqual(auth[71:75], b"user")
+        self.assertEqual(auth[49:54], b"\x00" * 5)
         self.assertEqual(int.from_bytes(auth[:4], "little"), Command.AUTH_REQUEST)
         login = build_stream_login(89799160, 1234)
         self.assertEqual(int.from_bytes(login[:4], "little"), Command.STREAM_LOGIN)

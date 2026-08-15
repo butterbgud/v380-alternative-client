@@ -23,8 +23,11 @@ are understood and tested against an authorized camera.
 - [x] (2026-08-15 21:37 Europe/Tallinn) Added TCP/8800 reassembly and capture-derived frame-envelope summary without payload output.
 - [x] (2026-08-15 21:43 Europe/Tallinn) Confirmed and encoded the relay handshake sequence 1167 -> 1168, 301 -> 401, 303 -> framed media.
 - [x] (2026-08-15 21:43 Europe/Tallinn) Added command-ID constants and tests without embedding credentials or payloads.
-- [ ] Build a read-only handshake probe that uses caller-supplied credentials and never logs secrets.
+- [x] (2026-08-15 21:57 Europe/Tallinn) Built an opt-in read-only relay probe with password prompt, chunk-safe reads, and status-only output.
 - [x] (2026-08-15 21:44 Europe/Tallinn) Added credential-safe handshake packet builders and response parsers; socket probing remains separate and opt-in.
+- [x] (2026-08-15 21:58 Europe/Tallinn) Identified and corrected the relay-specific 520-byte authentication layout from the capture.
+- [x] (2026-08-15 22:00 Europe/Tallinn) Ran the read-only probe against the observed relay; it reached the service and returned V380 auth result 1002, so transport/layout work, not connectivity, is now validated.
+- [ ] Obtain or verify the camera/device password before retrying authentication; do not guess credentials.
 - [ ] Add tests for broader pcapng packet parsing and capture-derived edge cases.
 - [ ] Document the relay handshake using redacted packet excerpts.
 - [ ] Implement a read-only handshake probe against an explicitly supplied camera endpoint.

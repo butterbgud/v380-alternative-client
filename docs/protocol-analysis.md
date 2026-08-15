@@ -39,6 +39,11 @@ transport and newer response behavior still need to be reproduced carefully.
 The public client exposes these identifiers as constants without embedding any
 device credentials or captured payloads.
 
+The relay capture also shows an extended 520-byte authentication request: the
+device domain begins at offset 17, while the username and encrypted password
+begin at offsets 71 and 103. This differs from the shorter LAN-oriented
+layout in older clients and explains why blindly reusing that layout failed.
+
 ## What remains unknown
 
 The relay handshake variant, authentication transformation, exact media codec

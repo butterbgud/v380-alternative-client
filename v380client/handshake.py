@@ -16,7 +16,9 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from .commands import Command, command_id
 
 
-AUTH_PACKET_SIZE = 256
+# The captured relay variant uses a 520-byte auth request. The older LAN
+# implementation used a shorter layout, which is why reusing it failed.
+AUTH_PACKET_SIZE = 520
 STREAM_PACKET_SIZE = 256
 STATIC_KEY = b"macrovideo+*#!^@"
 PRINTABLE = string.ascii_letters + string.digits + "!@#$%^&*()_+-="
@@ -48,11 +50,11 @@ def build_auth_request(device_id: int, username: str, password: str, domain: str
     packet[8] = 2
     struct.pack_into("<I", packet, 9, 1)
     struct.pack_into("<I", packet, 13, device_id)
-    for offset, value in ((17, domain), (49, username)):
+    for offset, value in ((17, domain), (71, username)):
         encoded = value.encode()[:31]
         packet[offset : offset + len(encoded)] = encoded
     blob = encrypted_password(password)
-    packet[81 : 81 + min(len(blob), 32)] = blob[:32]
+    packet[103 : 103 + min(len(blob), 32)] = blob[:32]
     return bytes(packet)
 
 
