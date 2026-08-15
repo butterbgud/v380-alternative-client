@@ -1,0 +1,31 @@
+# Private captures and vendor applications
+*.pcap
+*.pcapng
+*.exe
+*.msi
+*.dmp
+*.o
+download.log
+references/**/v380
+references/**/.git/
+references/**/xcuserdata/
+
+# Credentials and local configuration
+.env
+*.key
+*.pem
+credentials*
+secrets*
+
+# Local generated output
+__pycache__/
+.pytest_cache/
+*.pyc
+out/
+captures/
+
+# Wine and editor noise
+.wine/
+.venv/
+.idea/
+.vscode/
