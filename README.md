@@ -30,6 +30,7 @@ them.
 The dependency-free analyzer reports safe metadata without dumping payloads:
 
     python3 tools/pcap_summary.py path/to/your-capture.pcapng
+    python3 tools/pcap_v380_frames.py path/to/your-capture.pcapng
 
 See `docs/protocol-analysis.md` for the current public findings and `PLAN.md`
 for the roadmap.
