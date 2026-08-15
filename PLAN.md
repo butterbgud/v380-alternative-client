@@ -19,7 +19,8 @@ are understood and tested against an authorized camera.
 - [x] (2026-08-15 20:55 Europe/Tallinn) Confirmed the supplied capture uses a relay at TCP/8800 rather than the displayed LAN address.
 - [x] (2026-08-15 20:55 Europe/Tallinn) Defined public-repository safety boundaries: no credentials, proprietary executables, or private packet captures.
 - [x] (2026-08-15 20:55 Europe/Tallinn) Added the initial public-safe repository structure and standard-library capture summary tool.
-- [ ] Add tests for pcapng parsing and V380 frame-header extraction.
+- [x] (2026-08-15 21:35 Europe/Tallinn) Added dependency-free incremental V380 frame parsing with tests for TCP chunk boundaries and malformed input.
+- [ ] Add tests for pcapng parsing and capture-derived frame-header extraction.
 - [ ] Document the relay handshake using redacted packet excerpts.
 - [ ] Implement a read-only handshake probe against an explicitly supplied camera endpoint.
 - [ ] Capture and map snapshot and PTZ actions with user-controlled test captures.

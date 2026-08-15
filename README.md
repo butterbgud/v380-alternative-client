@@ -34,6 +34,13 @@ The dependency-free analyzer reports safe metadata without dumping payloads:
 See `docs/protocol-analysis.md` for the current public findings and `PLAN.md`
 for the roadmap.
 
+## Development
+
+The first protocol library parses only the V380 stream envelope; it does not
+decrypt or save media. Run its tests with:
+
+    python3 -m unittest discover -v
+
 ## License
 
 MIT. See `LICENSE`.
