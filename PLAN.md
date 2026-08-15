@@ -34,6 +34,7 @@ are understood and tested against an authorized camera.
 - [x] (2026-08-15 22:24 Europe/Tallinn) Added counter-checked assembly for complete fragmented cloud media groups; payload decoding remains the next media task.
 - [x] (2026-08-15 22:45 Europe/Tallinn) Located the official client's decoder boundary: `HS_DevicePreview.dll` performs media handling and exposes a `FrameData` callback; bundled `ACodec.dll`/`libmi_decoder.dll` provide AES and H.264/H.265 decoding.
 - [x] (2026-08-15 23:30 Europe/Tallinn) Confirmed the live session reaches the H.265 decoder and statically identified its three-argument input/output ABI; exact media-buffer extraction remains private runtime work.
+- [x] (2026-08-15 23:42 Europe/Tallinn) Added a loopback-only browser dashboard for the authorized read-only relay probe; video remains intentionally unclaimed until decoded media is verified.
 - [ ] Add tests for broader pcapng packet parsing and capture-derived edge cases.
 - [ ] Document the relay handshake using redacted packet excerpts.
 - [ ] Implement a read-only handshake probe against an explicitly supplied camera endpoint.

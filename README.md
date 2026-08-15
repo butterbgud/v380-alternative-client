@@ -50,6 +50,14 @@ or saving it. It performs authentication and stream negotiation only:
 Use it only with a camera and relay you are authorized to test. It does not
 send PTZ or other movement commands.
 
+For a friendlier local dashboard, run:
+
+    python3 tools/v380_web.py
+
+Then open `http://127.0.0.1:8765/`. The page is loopback-only and read-only;
+it reports authentication and stream metadata, not video yet. Passwords are
+submitted only to the local process and are not logged or written to disk.
+
 ## License
 
 MIT. See `LICENSE`.
