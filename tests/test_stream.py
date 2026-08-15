@@ -1,6 +1,7 @@
 import unittest
 
-from v380client.stream import parse_inner_frames, parse_outer_header
+from v380client.framing import V380Frame
+from v380client.stream import assemble_fragments, parse_inner_frames, parse_outer_header
 
 
 class OuterStreamTests(unittest.TestCase):
@@ -21,6 +22,17 @@ class OuterStreamTests(unittest.TestCase):
         self.assertEqual(len(parsed), 1)
         self.assertEqual(parsed[0].frame_type, 0x29)
         self.assertEqual(parsed[0].payload, b"abc")
+
+    def test_assembles_complete_fragment_group(self):
+        frames = [
+            V380Frame(0x28, 2, 1, b"second"),
+            V380Frame(0x28, 2, 0, b"first"),
+        ]
+        self.assertEqual(assemble_fragments(frames), b"firstsecond")
+
+    def test_rejects_incomplete_fragment_group(self):
+        with self.assertRaisesRegex(ValueError, "incomplete"):
+            assemble_fragments([V380Frame(0x28, 2, 0, b"only")])
 
 
 if __name__ == "__main__":

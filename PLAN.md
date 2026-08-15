@@ -31,6 +31,7 @@ are understood and tested against an authorized camera.
 - [x] (2026-08-15 22:05 Europe/Tallinn) Confirmed successful auth with the supplied device password and identified the cloud stream-login/start layouts from the official capture.
 - [x] (2026-08-15 22:06 Europe/Tallinn) Completed an authorized live relay probe: auth result 1001, stream status 4, and the expected 0x1f outer stream header.
 - [x] (2026-08-15 22:12 Europe/Tallinn) Added a safe 0x1f outer-header parser and verified that live relay bytes contain parseable inner 0x7f envelopes; codec/image boundaries remain unknown.
+- [x] (2026-08-15 22:24 Europe/Tallinn) Added counter-checked assembly for complete fragmented cloud media groups; payload decoding remains the next media task.
 - [ ] Add tests for broader pcapng packet parsing and capture-derived edge cases.
 - [ ] Document the relay handshake using redacted packet excerpts.
 - [ ] Implement a read-only handshake probe against an explicitly supplied camera endpoint.
