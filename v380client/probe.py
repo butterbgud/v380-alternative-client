@@ -9,8 +9,8 @@ from .handshake import (
     AuthResponse,
     StreamResponse,
     build_auth_request,
-    build_stream_login,
-    build_stream_start,
+    build_cloud_stream_login,
+    build_cloud_stream_start,
     parse_auth_response,
     parse_stream_response,
 )
@@ -53,9 +53,12 @@ def probe_relay(
 
     with socket.create_connection((host, port), timeout=timeout) as stream_socket:
         stream_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        stream_socket.sendall(build_stream_login(device_id, auth_response.auth_ticket))
-        stream_response = parse_stream_response(read_exact(stream_socket, 32))
-        stream_socket.sendall(build_stream_start(stream_response.status))
+        stream_socket.sendall(
+            build_cloud_stream_login(device_id, auth_response.auth_ticket, auth_response.session, domain)
+        )
+        raw_response = read_exact(stream_socket, 32)
+        stream_response = parse_stream_response(raw_response)
+        stream_socket.sendall(build_cloud_stream_start(raw_response))
         first = read_exact(stream_socket, 1)[0]
 
     return ProbeResult(auth_response, stream_response, first)

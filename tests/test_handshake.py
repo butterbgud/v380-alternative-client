@@ -3,6 +3,8 @@ import unittest
 from v380client.commands import Command
 from v380client.handshake import (
     build_auth_request,
+    build_cloud_stream_login,
+    build_cloud_stream_start,
     build_stream_login,
     build_stream_start,
     encrypted_password,
@@ -26,6 +28,10 @@ class HandshakeTests(unittest.TestCase):
         login = build_stream_login(89799160, 1234)
         self.assertEqual(int.from_bytes(login[:4], "little"), Command.STREAM_LOGIN)
         self.assertEqual(int.from_bytes(build_stream_start(-11)[:4], "little"), Command.STREAM_START)
+        cloud = build_cloud_stream_login(89799160, 1234, 5678, "device.example")
+        self.assertEqual(len(cloud), 256)
+        self.assertEqual(cloud[8:22].split(b"\0", 1)[0], b"device.example")
+        self.assertEqual(int.from_bytes(build_cloud_stream_start(bytes(32))[4:8], "little"), 0x3001)
 
     def test_response_parsers_return_metadata_only(self):
         auth = bytearray(21)
@@ -36,10 +42,11 @@ class HandshakeTests(unittest.TestCase):
         self.assertEqual(parse_auth_response(auth).auth_ticket, 42)
         stream = bytearray(18)
         stream[:4] = (401).to_bytes(4, "little")
-        stream[4:8] = (402).to_bytes(4, "little", signed=True)
-        stream[8:10] = (20).to_bytes(2, "little")
-        stream[10:14] = (640).to_bytes(4, "little")
-        stream[14:18] = (480).to_bytes(4, "little")
+        stream[4:8] = (101).to_bytes(4, "little", signed=True)
+        stream[8:12] = (402).to_bytes(4, "little", signed=True)
+        stream[12:16] = (20).to_bytes(4, "little")
+        stream[16:20] = (640).to_bytes(4, "little")
+        stream[20:24] = (480).to_bytes(4, "little")
         self.assertEqual(parse_stream_response(stream).width, 640)
 
 

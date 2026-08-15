@@ -44,6 +44,11 @@ device domain begins at offset 17, while the username and encrypted password
 begin at offsets 71 and 103. This differs from the shorter LAN-oriented
 layout in older clients and explains why blindly reusing that layout failed.
 
+With the relay layout, an authorized probe completed authentication with
+result `1001` and negotiated stream status `4`. The first bytes after stream
+start begin with `0x1f`, matching the outer stream header seen in the capture;
+the inner `0x7f` media envelopes follow it.
+
 ## What remains unknown
 
 The relay handshake variant, authentication transformation, exact media codec

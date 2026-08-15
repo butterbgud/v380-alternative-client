@@ -86,6 +86,23 @@ def build_stream_login(device_id: int, auth_ticket: int, resolution: int = 0) ->
     return bytes(packet)
 
 
+def build_cloud_stream_login(
+    device_id: int, auth_ticket: int, session: int, domain: str
+) -> bytes:
+    """Build the extended relay/cloud form observed in the official capture."""
+    packet = bytearray(STREAM_PACKET_SIZE)
+    struct.pack_into("<I", packet, 0, Command.STREAM_LOGIN)
+    struct.pack_into("<I", packet, 4, 1022)
+    encoded = domain.encode()[:31]
+    packet[8 : 8 + len(encoded)] = encoded
+    struct.pack_into("<I", packet, 62, device_id)
+    struct.pack_into("<I", packet, 66, auth_ticket)
+    struct.pack_into("<I", packet, 70, session)
+    packet[78] = 20
+    struct.pack_into("<I", packet, 79, 0x00010101)
+    return bytes(packet)
+
+
 @dataclass(frozen=True)
 class StreamResponse:
     status: int
@@ -98,10 +115,10 @@ def parse_stream_response(packet: bytes) -> StreamResponse:
     if len(packet) < 16 or command_id(packet) != Command.STREAM_LOGIN_RESPONSE:
         raise ValueError("not a V380 stream-login response")
     return StreamResponse(
-        status=struct.unpack_from("<i", packet, 4)[0],
-        fps=struct.unpack_from("<H", packet, 8)[0],
-        width=struct.unpack_from("<I", packet, 10)[0],
-        height=struct.unpack_from("<I", packet, 14)[0],
+        status=struct.unpack_from("<i", packet, 8)[0],
+        fps=struct.unpack_from("<I", packet, 12)[0],
+        width=struct.unpack_from("<I", packet, 16)[0],
+        height=struct.unpack_from("<I", packet, 20)[0],
     )
 
 
@@ -109,4 +126,15 @@ def build_stream_start(status: int) -> bytes:
     packet = bytearray(STREAM_PACKET_SIZE)
     struct.pack_into("<I", packet, 0, Command.STREAM_START)
     struct.pack_into("<i", packet, 4, status)
+    return bytes(packet)
+
+
+def build_cloud_stream_start(response: bytes) -> bytes:
+    """Build the relay start packet observed after a cloud stream response."""
+    if len(response) < 16:
+        raise ValueError("stream response is too short")
+    packet = bytearray(STREAM_PACKET_SIZE)
+    struct.pack_into("<I", packet, 0, Command.STREAM_START)
+    struct.pack_into("<I", packet, 4, 0x3001)
+    packet[8:16] = response[8:16]
     return bytes(packet)
