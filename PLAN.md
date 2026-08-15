@@ -21,6 +21,9 @@ are understood and tested against an authorized camera.
 - [x] (2026-08-15 20:55 Europe/Tallinn) Added the initial public-safe repository structure and standard-library capture summary tool.
 - [x] (2026-08-15 21:35 Europe/Tallinn) Added dependency-free incremental V380 frame parsing with tests for TCP chunk boundaries and malformed input.
 - [x] (2026-08-15 21:37 Europe/Tallinn) Added TCP/8800 reassembly and capture-derived frame-envelope summary without payload output.
+- [x] (2026-08-15 21:43 Europe/Tallinn) Confirmed and encoded the relay handshake sequence 1167 -> 1168, 301 -> 401, 303 -> framed media.
+- [x] (2026-08-15 21:43 Europe/Tallinn) Added command-ID constants and tests without embedding credentials or payloads.
+- [ ] Build a read-only handshake probe that uses caller-supplied credentials and never logs secrets.
 - [ ] Add tests for broader pcapng packet parsing and capture-derived edge cases.
 - [ ] Document the relay handshake using redacted packet excerpts.
 - [ ] Implement a read-only handshake probe against an explicitly supplied camera endpoint.

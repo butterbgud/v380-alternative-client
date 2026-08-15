@@ -25,6 +25,20 @@ The captured relay stream contains the same broad marker pattern, followed by
 large payloads. Payload contents are not documented here because they may be
 encrypted or session-specific.
 
+## Relay handshake model
+
+The redacted capture confirms this command sequence on separate TCP/8800
+connections:
+
+    1167 authentication request -> 1168 authentication response
+    301 stream login -> 401 stream-login response
+    303 stream start -> 0x7f-framed media/control traffic
+
+These identifiers match the older community implementation, but the relay
+transport and newer response behavior still need to be reproduced carefully.
+The public client exposes these identifiers as constants without embedding any
+device credentials or captured payloads.
+
 ## What remains unknown
 
 The relay handshake variant, authentication transformation, exact media codec
