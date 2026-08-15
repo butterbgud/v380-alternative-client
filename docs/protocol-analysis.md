@@ -62,6 +62,13 @@ boundaries, snapshot command, and PTZ command behavior still need to be
 validated. A successful TCP connection is not sufficient evidence of support;
 the acceptance test is a verified image from an authorized camera.
 
+The official Windows client provides a useful local reference boundary: its
+preview component exposes a `FrameData` callback, while bundled decoder
+components include AES media handling and H.264/H.265 decoding. These vendor
+files are not redistributed; they are used only for authorized local
+interoperability research. A future implementation can target the equivalent
+post-decryption frame boundary rather than pretending the relay is RTP.
+
 ## How to contribute evidence
 
 Capture one action at a time, using a private Wireshark file: connect/live
