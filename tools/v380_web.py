@@ -21,9 +21,9 @@ button{padding:11px 18px;border:0;border-radius:5px;background:#64d38a;font-weig
 pre{white-space:pre-wrap;background:#18202a;padding:16px;border-radius:6px;border-left:4px solid #64d38a}</style>
 <h1>V380 relay test bench</h1><p class=note>Loopback-only, read-only authentication and stream negotiation. No video or camera controls yet.</p>
 <form method=post action=/probe autocomplete=off><div class=grid>
-<label>Relay host<input name=host required placeholder=\"authorized relay host\"></label><label>Port<input name=port value=8800></label></div>
-<div class=grid><label>Device ID<input name=device_id required placeholder=89799160></label><label>Relay domain<input name=domain placeholder=\"optional\"></label></div>
-<label>Device username<input name=username required value=tower></label><label>Device password<input name=password type=password required></label>
+<label>Relay host<input name=host required value=__HOST__></label><label>Port<input name=port value=8800></label></div>
+<div class=grid><label>Device ID<input name=device_id required value=__DEVICE_ID__></label><label>Relay domain<input name=domain value=__DOMAIN__></label></div>
+<label>Device username<input name=username required value=__USERNAME__></label><label>Device password<input name=password type=password required></label>
 <button>Authenticate and negotiate stream</button></form>{result}"""
 
 
@@ -33,12 +33,17 @@ def value(values: dict[str, list[str]], name: str, default: str = "") -> str:
 
 class Handler(BaseHTTPRequestHandler):
     server_version = "V380TestBench/0.1"
+    defaults = {"host": "", "device_id": "", "domain": "", "username": "tower"}
 
     def log_message(self, *_args: object) -> None:
         return  # never log form values
 
     def page(self, result: str = "") -> None:
-        body = PAGE.replace("{result}", result).encode()
+        page = PAGE.replace("__HOST__", self.defaults["host"])
+        page = page.replace("__DEVICE_ID__", self.defaults["device_id"])
+        page = page.replace("__DOMAIN__", self.defaults["domain"])
+        page = page.replace("__USERNAME__", self.defaults["username"])
+        body = page.replace("{result}", result).encode()
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
@@ -79,7 +84,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument("--default-relay", default="")
+    parser.add_argument("--default-device-id", default="")
+    parser.add_argument("--default-domain", default="")
+    parser.add_argument("--default-username", default="tower")
     args = parser.parse_args()
+    Handler.defaults = {"host": args.default_relay, "device_id": args.default_device_id,
+                        "domain": args.default_domain, "username": args.default_username}
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     print(f"Open http://{args.host}:{args.port}/")
     try:
