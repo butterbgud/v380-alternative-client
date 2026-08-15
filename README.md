@@ -42,6 +42,14 @@ decrypt or save media. Run its tests with:
 
     python3 -m unittest discover -v
 
+The experimental probe is opt-in and prompts for the password without echoing
+or saving it. It performs authentication and stream negotiation only:
+
+    python3 tools/v380_probe.py --host HOST --device-id ID --domain DOMAIN --username USER
+
+Use it only with a camera and relay you are authorized to test. It does not
+send PTZ or other movement commands.
+
 ## License
 
 MIT. See `LICENSE`.
