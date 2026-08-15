@@ -33,6 +33,7 @@ are understood and tested against an authorized camera.
 - [x] (2026-08-15 22:12 Europe/Tallinn) Added a safe 0x1f outer-header parser and verified that live relay bytes contain parseable inner 0x7f envelopes; codec/image boundaries remain unknown.
 - [x] (2026-08-15 22:24 Europe/Tallinn) Added counter-checked assembly for complete fragmented cloud media groups; payload decoding remains the next media task.
 - [x] (2026-08-15 22:45 Europe/Tallinn) Located the official client's decoder boundary: `HS_DevicePreview.dll` performs media handling and exposes a `FrameData` callback; bundled `ACodec.dll`/`libmi_decoder.dll` provide AES and H.264/H.265 decoding.
+- [x] (2026-08-15 23:30 Europe/Tallinn) Confirmed the live session reaches the H.265 decoder and statically identified its three-argument input/output ABI; exact media-buffer extraction remains private runtime work.
 - [ ] Add tests for broader pcapng packet parsing and capture-derived edge cases.
 - [ ] Document the relay handshake using redacted packet excerpts.
 - [ ] Implement a read-only handshake probe against an explicitly supplied camera endpoint.
@@ -48,6 +49,8 @@ are understood and tested against an authorized camera.
   Evidence: many inbound payloads use the legacy-looking `0x7f` frame marker and carry large payloads.
 - Observation: the old open-source client is useful as a structural reference but does not complete this camera's stream handshake.
   Evidence: it receives compatibility response `-11` and encounters unknown command `0x9c`.
+- Observation: the official client decodes this camera's live stream as H.265 through `libmi_decoder.dll`.
+  Evidence: the authorized x32dbg trace hit `mi_h265decoder_decodeframe`; static disassembly shows a `{data, size}` input packet.
 
 ## Decision Log
 
