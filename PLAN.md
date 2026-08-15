@@ -30,11 +30,11 @@ are understood and tested against an authorized camera.
 - [ ] Obtain or verify the camera/device password before retrying authentication; do not guess credentials.
 - [x] (2026-08-15 22:05 Europe/Tallinn) Confirmed successful auth with the supplied device password and identified the cloud stream-login/start layouts from the official capture.
 - [x] (2026-08-15 22:06 Europe/Tallinn) Completed an authorized live relay probe: auth result 1001, stream status 4, and the expected 0x1f outer stream header.
-- [ ] Parse the 0x1f outer header and extract the inner media stream safely.
+- [x] (2026-08-15 22:12 Europe/Tallinn) Added a safe 0x1f outer-header parser and verified that live relay bytes contain parseable inner 0x7f envelopes; codec/image boundaries remain unknown.
 - [ ] Add tests for broader pcapng packet parsing and capture-derived edge cases.
 - [ ] Document the relay handshake using redacted packet excerpts.
 - [ ] Implement a read-only handshake probe against an explicitly supplied camera endpoint.
-- [ ] Capture and map snapshot and PTZ actions with user-controlled test captures.
+- [ ] Capture and map snapshot and PTZ actions with user-controlled test captures; snapshot remains the acceptance milestone.
 - [ ] Implement authenticated viewing and snapshot retrieval.
 - [ ] Publish to a GitHub repository after local review and license/repository-name confirmation.
 

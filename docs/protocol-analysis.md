@@ -49,6 +49,12 @@ result `1001` and negotiated stream status `4`. The first bytes after stream
 start begin with `0x1f`, matching the outer stream header seen in the capture;
 the inner `0x7f` media envelopes follow it.
 
+The client now validates that fixed 12-byte outer prefix and parses the inner
+envelopes incrementally without interpreting or logging their payloads. Live
+traffic currently contains several envelope types, but no standard JPEG or
+Annex-B video signature has been established; the payload may be encrypted or
+require an additional multiplexing layer.
+
 ## What remains unknown
 
 The relay handshake variant, authentication transformation, exact media codec
