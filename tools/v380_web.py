@@ -71,7 +71,7 @@ class Handler(BaseHTTPRequestHandler):
             result = probe_relay(value(values, "host"), int(value(values, "device_id")),
                                  value(values, "username"), password,
                                  domain=value(values, "domain"), port=int(value(values, "port", "8800")))
-            output = ("<pre>Authenticated: result={r}\\nStream: status={s} {w}x{h} @ {f}fps\\n"
+            output = ("<pre>Authenticated: result={r}\nStream: status={s} {w}x{h} @ {f}fps\n"
                       "First stream byte: 0x{m:02x}</pre>").format(
                           r=result.auth.result, s=result.stream.status, w=result.stream.width,
                           h=result.stream.height, f=result.stream.fps, m=result.first_stream_marker)
