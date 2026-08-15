@@ -9,6 +9,9 @@ download.log
 references/**/v380
 references/**/.git/
 references/**/xcuserdata/
+# Community source snapshots are kept locally until attribution and license
+# review is complete.
+references/
 
 # Credentials and local configuration
 .env
